@@ -27,4 +27,25 @@ soup = BeautifulSoup(req.text,'html.parser')
 #save path
 path = "C:\\Users\\14119\\Documents\\python&dl\\img\\"
 
+if __name__ == '__main__':
+    links = get_links(soup)
+    #print(links)
+    neurons = []
+    #print(links)
+    for link in links:
+        #get information of each neuron
+        #print(link)
+        soup_neuron = get_os_from_link(link)
+        info = soup.find_all("div",class_="info")
+        name = link[28:]
+        #print(soup)
+        details = get_neuron_details(soup_neuron)
+        img_link = "http://neuromorpho.org/images/imageFiles/" + details[3][1] + "/" + name + ".png"
+        print("img_link=")
+        print(img_link)
+        dl_img(img_link,name,path)
+        img = read_img(path,name)
+        #save information of neuron
+        neuron = Neuron(name,img,details)
+        neurons.append(neuron)
     
