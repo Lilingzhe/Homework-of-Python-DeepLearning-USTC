@@ -41,8 +41,6 @@ if __name__ == '__main__':
         #print(soup)
         details = get_neuron_details(soup_neuron)
         img_link = "http://neuromorpho.org/images/imageFiles/" + details[3][1] + "/" + name + ".png"
-        print("img_link=")
-        print(img_link)
         dl_img(img_link,name,path)
         img = read_img(path,name)
         #save information of neuron
