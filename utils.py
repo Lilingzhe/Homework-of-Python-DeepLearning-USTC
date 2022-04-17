@@ -6,6 +6,9 @@ import requests
 import json
 import re
 import logging
+import cv2
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
 
 class  Neuron:
     def __init__(self,name,pic,details):
@@ -34,7 +37,7 @@ def get_os_from_link(link):
     soup = BeautifulSoup(req.text,'html.parser')
     return soup
 
-def get_neuron_name(soup):
+def get_neuron_name(soup,link):
     #get neuron_name
     info = soup.find_all("div",class_="info")
     name = link[28:]
@@ -53,20 +56,26 @@ def get_neuron_details(soup):
                 ui.append(s)
         if(ui):
             ulist.append(ui)
-    ulist = ulist[1:]    
-    return ulist
+    details = ulist[1:]  
+    return details
 
-def get_img_link(ulist):
+def get_img_link(ulist,name):
     img_link = "http://neuromorpho.org/images/imageFiles/" + ulist[3][1] + "/" + name + ".png"
     return img_link
 
 def dl_img(img_link,name,path):
     #download image in certain path
-    response = requests.get(img_link)
+    logging.captureWarnings(True)
+    Headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36'}
+    response = requests.get(img_link,headers = Headers, verify = False)
     img = response.content
     if response.status_code == 200:
         open(path + name + ".png" ,'wb').write(img)
     del response    
 
-
+def read_img(path,name):
+    img = mpimg.imread(path+name+'.png')
+    # plt.imshow(img)
+    # plt.show()
+    return img
     
