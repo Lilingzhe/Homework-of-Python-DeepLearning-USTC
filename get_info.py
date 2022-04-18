@@ -32,6 +32,7 @@ if __name__ == '__main__':
     #print(links)
     neurons = []
     #print(links)
+    f = open('log.txt','w')
     for link in links:
         #get information of each neuron
         #print(link)
@@ -40,10 +41,11 @@ if __name__ == '__main__':
         name = link[28:]
         #print(soup)
         details = get_neuron_details(soup_neuron)
+        f.write(str(details)+'\n')
         img_link = "http://neuromorpho.org/images/imageFiles/" + details[3][1] + "/" + name + ".png"
         dl_img(img_link,name,path)
         img = read_img(path,name)
         #save information of neuron
         neuron = Neuron(name,img,details)
         neurons.append(neuron)
-    
+    f.close
