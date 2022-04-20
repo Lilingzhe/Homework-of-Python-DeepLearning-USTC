@@ -79,3 +79,34 @@ def read_img(path,name):
     # plt.show()
     return img
     
+#converse output(str) to list
+import cv2
+
+def read_details_info(txt_file):
+    #read from txt
+    f = open(txt_file,'r')
+    lists = []
+    name_list = []
+    while(True):
+        line = f.readline()
+        if line:
+            list = line.split('[')
+            new_list = []
+            info = ''
+            for i in list:
+                i = i.strip("[',] ")
+                i = i.strip("',")
+                i = i.replace("', '","")
+                if(i!=' ' and i and i!='\n'):
+                    new_list.append(i)
+                    info = info + i + '\n'
+            name = new_list[2][13:]
+            name_list.append(name)
+            fname = name + '.txt'
+            file = open(fname,'w')
+            file.write(info)
+            file.close
+            lists.append(new_list)
+        else:
+            break
+    return lists,name_list    
