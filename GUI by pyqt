@@ -1,0 +1,70 @@
+# -*- coding: utf-8 -*-
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+
+import sys
+
+def get_neuron_list(filename):
+    f = open(filename,'r')
+    name_list = []
+    while True:
+        line = f.readline()
+        if line:
+            line = line.strip()
+            name_list.append(line)
+        else:
+            break
+    return name_list
+    
+name_list = get_neuron_list('name.txt')
+
+class QComBoBoxDemo(QWidget):
+
+    def __init__(self):
+        super(QComBoBoxDemo,self).__init__()
+        self.initUI()
+
+    def initUI(self):
+        self.setWindowTitle("chimpanzee neurons' infomation")
+        self.resize(600, 800)
+
+        layout = QVBoxLayout()
+
+        self.label = QLabel("select a neuron")
+
+        self.cb = QComboBox()
+        name_list = get_neuron_list('name.txt')
+        for name in name_list:
+            self.cb.addItem(name)
+        
+        self.cb.currentIndexChanged.connect(self.loadText)
+        self.cb.currentIndexChanged.connect(self.loadImage)
+
+        layout.addWidget(self.cb)
+        self.setLayout(layout)
+        
+        self.imageLabel = QLabel()
+        layout.addWidget(self.imageLabel)
+
+        self.contents = QTextEdit()
+        layout.addWidget(self.contents)
+
+    def loadImage(self):
+        # show image
+        fname = 'img\\' + self.cb.currentText() + '.png'
+        self.imageLabel.setPixmap(QPixmap(fname))
+
+    def loadText(self):
+        #show details in txt
+        fname = 'txt\\' + self.cb.currentText() + '.txt'
+        f = open(fname, "r")
+        with f:
+            data = f.read()
+            self.contents.setText(data)       
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    main = QComBoBoxDemo()
+    main.show()
+    sys.exit(app.exec_())
