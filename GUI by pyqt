@@ -5,6 +5,8 @@ from PyQt5.QtCore import *
 
 import sys
 
+#set the savepath of images and details files in func loadImage & loadText 
+
 def get_neuron_list(filename):
     f = open(filename,'r')
     name_list = []
