@@ -1,4 +1,4 @@
-#converse output(str) to list
+#converse output(str) to list and save information respectively in txt files
 import cv2
 
 def read_details_info(txt_file):
